@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SpeakerMeet.Core.DTOs;
+using SpeakerMeet.Core.Entities;
 using SpeakerMeet.Core.Interfaces.Logging;
 using SpeakerMeet.Core.Interfaces.Services;
 
@@ -107,11 +108,25 @@ namespace SpeakerMeet.Api.Controllers
 
             return BadRequest("Unable to return Communities");
         }
-        
+
         // POST: api/Communities
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
+        public IActionResult Post([FromBody] CommunityAdd communityAdd)
         {
+
+            if(communityAdd == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+               _communityService.CreateCommunity(communityAdd);
+            }
+
+            return Ok();
         }
 
         // PUT: api/Communities/5
@@ -122,8 +137,20 @@ namespace SpeakerMeet.Api.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> Delete(Guid id)
         {
+            var communityResult = await _communityService.Get(id);
+            await _communityService.DeleteCommunity(communityResult);  // I would like to check if the row was deleted
+            if(communityResult != null)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

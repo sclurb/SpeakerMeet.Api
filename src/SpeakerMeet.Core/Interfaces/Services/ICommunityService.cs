@@ -11,5 +11,7 @@ namespace SpeakerMeet.Core.Interfaces.Services
         Task<CommunityResult> Get(string slug);
         Task<CommunitiesResult> GetAll(int pageIndex, int itemsPage, string? direction);
         Task<IEnumerable<CommunityFeatured>> GetFeatured();
+        public void CreateCommunity(CommunityAdd communityAdd);  // OK maybe it should return a Task?
+        public Task DeleteCommunity(CommunityResult communityResult);
     }
 }

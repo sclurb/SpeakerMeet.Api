@@ -109,5 +109,29 @@ namespace SpeakerMeet.Core.Services
 
             return results;
         }
+
+        public void CreateCommunity(CommunityAdd communityAdd)
+        {
+            Community community = new Community()
+            {
+                Id = Guid.NewGuid(),
+                Name = communityAdd.Name,
+                Slug = communityAdd.Slug,
+                Location = communityAdd.Location,
+                Description = communityAdd.Description,
+                IsActive = communityAdd.IsActive,
+                CreatedBy = communityAdd.CreatedBy,
+                Created = DateTime.UtcNow,
+                UpdatedBy = communityAdd.UpdatedBy,
+                Updated = new DateTime(0001, 01, 01)  //Almost null... since this is a create, thought it best to give this a default value which can be changed when/if update occurs
+            };
+
+            var result =_repository.Add<Community>(community);
+        }
+
+        public async Task DeleteCommunity(CommunityResult communityResult)
+        {
+           await _repository.Delete<CommunityResult>(communityResult);
+        }
     }
 }
