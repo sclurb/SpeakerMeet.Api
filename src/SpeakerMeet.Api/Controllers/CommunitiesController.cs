@@ -114,19 +114,19 @@ namespace SpeakerMeet.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
-        public IActionResult Post([FromBody] CommunityAdd communityAdd)
+        public async Task<IActionResult> PostAsync([FromBody] CommunityAdd communityAdd)
         {
-
+            var result = new Community();
             if(communityAdd == null)
             {
                 return BadRequest();
             }
             else
             {
-               _communityService.CreateCommunity(communityAdd);
+               result = await _communityService.CreateCommunity(communityAdd);
             }
 
-            return Ok();
+            return Ok(result);
         }
 
         // PUT: api/Communities/5
@@ -141,9 +141,9 @@ namespace SpeakerMeet.Api.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var communityResult = await _communityService.Get(id);
-            await _communityService.DeleteCommunity(communityResult);  // I would like to check if the row was deleted
-            if(communityResult != null)
+            var result = await _communityService.DeleteCommunity(id);
+
+            if(result > 0)
             {
                 return NoContent();
             }

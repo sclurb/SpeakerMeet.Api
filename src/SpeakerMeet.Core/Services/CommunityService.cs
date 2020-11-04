@@ -110,7 +110,7 @@ namespace SpeakerMeet.Core.Services
             return results;
         }
 
-        public void CreateCommunity(CommunityAdd communityAdd)
+        public Task<Community> CreateCommunity(CommunityAdd communityAdd)
         {
             Community community = new Community()
             {
@@ -125,13 +125,49 @@ namespace SpeakerMeet.Core.Services
                 UpdatedBy = communityAdd.UpdatedBy,
                 Updated = new DateTime(0001, 01, 01)  //Almost null... since this is a create, thought it best to give this a default value which can be changed when/if update occurs
             };
-
             var result =_repository.Add<Community>(community);
+            return result;
         }
 
-        public async Task DeleteCommunity(CommunityResult communityResult)
+        public async Task<Community> UpdateCommunity(CommunityAdd communityAdd, Guid id)
         {
-           await _repository.Delete<CommunityResult>(communityResult);
+            var community = await _repository.Get(new CommunitySpecification(id));
+
+            community.Name = communityAdd.Name;
+            community.Slug = communityAdd.Slug;
+            community.Location = communityAdd.Location;
+            community.Description = communityAdd.Description;
+            community.IsActive = communityAdd.IsActive;
+            community.CreatedBy = communityAdd.CreatedBy;
+            community.Created = communityAdd.Created;
+            community.UpdatedBy = communityAdd.UpdatedBy;
+            community.Updated = communityAdd.Updated;
+
+            var result = _repository.Update<Community>(community);
+            if(result != null)
+            {
+                return community;
+            }
+            else
+            {
+                community.Name = "Dag Nammit!";
+                return community;
+            }
+            
+        }
+
+        public async Task<int> DeleteCommunity(Guid id)
+        {
+            var community = await _repository.Get(new CommunitySpecification(id));
+            if(community != null)
+            {
+                await _repository.Delete<Community>(community);
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
         }
     }
 }
