@@ -13,6 +13,7 @@ namespace SpeakerMeet.Core.Interfaces.Services
         Task<CommunitiesResult> GetAll(int pageIndex, int itemsPage, string? direction);
         Task<IEnumerable<CommunityFeatured>> GetFeatured();
         Task<Community> CreateCommunity(CommunityAdd communityAdd);  // OK maybe it should return a Task?
+        Task UpdateCommunity(CommunityUpdate communityUpdate);
         Task<int> DeleteCommunity(Guid id);
     }
 }

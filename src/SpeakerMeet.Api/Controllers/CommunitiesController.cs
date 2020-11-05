@@ -130,9 +130,21 @@ namespace SpeakerMeet.Api.Controllers
         }
 
         // PUT: api/Communities/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> Put([FromBody] CommunityUpdate communityUpdate)
         {
+            if(communityUpdate == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                await _communityService.UpdateCommunity(communityUpdate);
+                return NoContent();
+            }
         }
 
         // DELETE: api/ApiWithActions/5

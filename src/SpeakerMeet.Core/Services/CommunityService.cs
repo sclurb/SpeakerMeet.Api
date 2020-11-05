@@ -125,36 +125,28 @@ namespace SpeakerMeet.Core.Services
                 UpdatedBy = communityAdd.UpdatedBy,
                 Updated = new DateTime(0001, 01, 01)  //Almost null... since this is a create, thought it best to give this a default value which can be changed when/if update occurs
             };
-            var result =_repository.Add<Community>(community);
-            return result;
+            var addedCommunity =_repository.Add<Community>(community);
+            return addedCommunity;
         }
 
-        public async Task<Community> UpdateCommunity(CommunityAdd communityAdd, Guid id)
+        public async Task UpdateCommunity(CommunityUpdate communityUpdate)
         {
-            var community = await _repository.Get(new CommunitySpecification(id));
-
-            community.Name = communityAdd.Name;
-            community.Slug = communityAdd.Slug;
-            community.Location = communityAdd.Location;
-            community.Description = communityAdd.Description;
-            community.IsActive = communityAdd.IsActive;
-            community.CreatedBy = communityAdd.CreatedBy;
-            community.Created = communityAdd.Created;
-            community.UpdatedBy = communityAdd.UpdatedBy;
-            community.Updated = communityAdd.Updated;
-
-            var result = _repository.Update<Community>(community);
-            if(result != null)
+            Community community = new Community()
             {
-                return community;
-            }
-            else
-            {
-                community.Name = "Dag Nammit!";
-                return community;
-            }
-            
-        }
+                Id = communityUpdate.Id,
+                Name = communityUpdate.Name,
+                Slug = communityUpdate.Slug,
+                Location = communityUpdate.Location,
+                Description = communityUpdate.Description,
+                IsActive = communityUpdate.IsActive,
+                CreatedBy = communityUpdate.CreatedBy,
+                Created = communityUpdate.Created,
+                UpdatedBy = communityUpdate.UpdatedBy,
+                Updated = communityUpdate.Updated
+            };
+             await _repository.Update<Community>(community);
+
+          }
 
         public async Task<int> DeleteCommunity(Guid id)
         {
@@ -162,7 +154,7 @@ namespace SpeakerMeet.Core.Services
             if(community != null)
             {
                 await _repository.Delete<Community>(community);
-                return 1;
+                return 0;
             }
             else
             {
