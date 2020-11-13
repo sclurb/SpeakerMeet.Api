@@ -45,7 +45,13 @@ namespace SpeakerMeet.Infrastructure.Data
                 new Tag { Id = guid[5], Name = "A little Noisier Residential Area", IsActive = true, Created = DateTime.UtcNow.AddHours(-3), Updated = DateTime.Now.AddHours(5)},
                 new Tag { Id = guid[6], Name = "A very Noisy Community", IsActive = true, Created = DateTime.UtcNow.AddHours(6), Updated = DateTime.Now.AddHours(2) },
                 new Tag { Id = guid[7], Name = "Quiet Industrial Nightmare", IsActive = true, Created = DateTime.UtcNow, Updated = DateTime.Now.AddHours(15) }
-                    );
+            );
+            modelBuilder.Entity<Community>().HasData(
+                new Community { Id = new Guid("DC22E451-A6AA-4276-9B01-5B343229B964"), Name = "Freddy's Trailer Park", Slug = "Freddy'd Trailer Park", Location = "Pasco County", Description = "A trailer park with people in need of help", IsActive = true, UpdatedBy = new Guid("3FA85F64-5717-4562-B3FC-2C963F66AFA6"), Created = DateTime.UtcNow, Updated = DateTime.UtcNow },
+                new Community { Id = new Guid("75387FB2-8DE4-48D2-90AE-82C35B3AC1B4"), Name = "Beacon Groves", Slug = "Simple Subdivision", Location = "Palm Harbor, Fl", Description = "Single family homes", IsActive = true, UpdatedBy = new Guid("3FA85F64-5717-4562-B3FC-2C963F66AFA6"), Created = DateTime.UtcNow, Updated = DateTime.UtcNow },
+                new Community { Id = new Guid("6BDA0880-156E-498C-BE15-AD5CD04758FD"), Name = "Emerald Isle", Slug = "Beautiful Place", Location = "Cearwater, Fl", Description = "Single family homes", IsActive = true, UpdatedBy = new Guid("3FA85F64-5717-4562-B3FC-2C963F66AFA6"), Created = DateTime.UtcNow, Updated = DateTime.UtcNow },
+                new Community { Id = new Guid("D6697E38-9C52-4941-90BA-CD393D74A9CC"), Name = "La Villa Strangiata", Slug = "Funky Toon", Location = "Lackowanna, FL", Description = "Strange cozy place in the swamp", IsActive = true, UpdatedBy = new Guid("3FA85F64-5717-4562-B3FC-2C963F66AFA6"), Created = DateTime.UtcNow, Updated = DateTime.UtcNow }
+                );
         }
     }
 }

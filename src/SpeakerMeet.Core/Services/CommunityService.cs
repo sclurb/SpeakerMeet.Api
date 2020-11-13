@@ -112,6 +112,8 @@ namespace SpeakerMeet.Core.Services
 
         public Task<Community> CreateCommunity(CommunityAdd communityAdd)
         {
+            var tags = 
+
             Community community = new Community()
             {
                 Id = Guid.NewGuid(),
