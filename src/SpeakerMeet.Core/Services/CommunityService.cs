@@ -173,12 +173,22 @@ namespace SpeakerMeet.Core.Services
             // Foreach ConferenceTagDto in Conference.Tags - Update (not sure if there's anything to do in our example)
             // Foreach Conference.Tags not in ConferenceTagDto - Delete
 
-            var dbtags = await _repository.List(new TagSpecification());
+            var dbTags = await _repository.List(new TagSpecification());
             foreach (var tag in tags)
             {
                 if(!community.CommunityTags.Any(t => t.Tag.Name == tag))
                 {
-                    community.CommunityTags.Add(new CommunityTag { Tag = dbtags.Single(c => c.Name == tag) });
+                    community.CommunityTags.Add(new CommunityTag { Tag = dbTags.Single(c => c.Name == tag) });
+                }
+            }
+            foreach (var dbTag in dbTags)
+            {
+                foreach (var tag in tags)
+                {
+                    if (community.CommunityTags.Any(t => t.Tag.Name != tag))
+                    {
+                        await _repository.Delete(dbTag);
+                    }
                 }
             }
             await _repository.Update(community);
