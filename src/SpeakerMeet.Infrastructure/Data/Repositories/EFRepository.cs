@@ -5,6 +5,7 @@ using Ardalis.Specification.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SpeakerMeet.Core.Interfaces.Repositories;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SpeakerMeet.Infrastructure.Data.Repositories
 {
@@ -66,5 +67,7 @@ namespace SpeakerMeet.Infrastructure.Data.Repositories
 
             return evaluator.GetQuery(_context.Set<T>().AsQueryable(), spec);
         }
+
+
     }
 }

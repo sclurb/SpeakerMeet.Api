@@ -112,7 +112,7 @@ namespace SpeakerMeet.Core.Services
 
         public Task<Community> CreateCommunity(CommunityAdd communityAdd)
         {
-            var tags = 
+            //var tags = 
 
             Community community = new Community()
             {
@@ -162,6 +162,20 @@ namespace SpeakerMeet.Core.Services
             {
                 return -1;
             }
+        }
+
+        public async Task<CommunityResult> GetWithTAgs(Guid id)
+        {
+            var community = await _repository.Get(new CommunitySpecification(id));
+
+            return new CommunityResult
+            {
+                Id = community.Id,
+                Location = community.Location,
+                Name = community.Name,
+                Slug = community.Slug,
+                Description = community.Description
+            };
         }
     }
 }
