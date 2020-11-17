@@ -15,5 +15,6 @@ namespace SpeakerMeet.Core.Interfaces.Services
         Task<Community> CreateCommunity(CommunityAdd communityAdd);  // OK maybe it should return a Task?
         Task UpdateCommunity(CommunityUpdate communityUpdate);
         Task<int> DeleteCommunity(Guid id);
+        Task<CommunityResult> UpdateTags(Guid id, string[] tags);
     }
 }

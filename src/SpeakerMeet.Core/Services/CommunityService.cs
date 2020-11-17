@@ -164,10 +164,24 @@ namespace SpeakerMeet.Core.Services
             }
         }
 
-        public async Task<CommunityResult> GetWithTAgs(Guid id)
+        public async Task<CommunityResult> UpdateTags(Guid id, string[] tags)
         {
             var community = await _repository.Get(new CommunitySpecification(id));
+            // Get community tags for ID
+            // Get Tags
+            // Foreach ConferenceTagDto not in Conference.Tags - Add
+            // Foreach ConferenceTagDto in Conference.Tags - Update (not sure if there's anything to do in our example)
+            // Foreach Conference.Tags not in ConferenceTagDto - Delete
 
+            var dbtags = await _repository.List(new TagSpecification());
+            foreach (var tag in tags)
+            {
+                if(!community.CommunityTags.Any(t => t.Tag.Name == tag))
+                {
+                    community.CommunityTags.Add(new CommunityTag { Tag = dbtags.Single(c => c.Name == tag) });
+                }
+            }
+            await _repository.Update(community);
             return new CommunityResult
             {
                 Id = community.Id,

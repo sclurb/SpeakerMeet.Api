@@ -69,7 +69,7 @@ namespace SpeakerMeet.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-            db.Database.EnsureDeleted();
+           // db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
 
             app.UseHttpsRedirection();

@@ -164,5 +164,25 @@ namespace SpeakerMeet.Api.Controllers
                 return NotFound();
             }
         }
+
+        [HttpPut("{id}/tags")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> UpdateTags(Guid id, string[] tags)
+        {
+            try
+            {
+                var result = await _communityService.UpdateTags(id, tags);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+
+            return BadRequest("Unable to return Community");
+        }
     }
 }
